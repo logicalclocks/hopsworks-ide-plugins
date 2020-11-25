@@ -108,11 +108,6 @@ public class HopsPluginUtils {
     public HopsPluginUtils(){
         // Setting JOB TYPE //TO DO configurable job type
         /*
-        UNUSED NOW
-        jobTypeCode.put("jar",1);
-        jobTypeCode.put("py",2);
-        jobTypeCode.put("ipynb",2);
-        */
 
     }
 
