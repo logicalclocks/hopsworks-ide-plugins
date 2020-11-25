@@ -1,6 +1,6 @@
 Plugins for popular IDEs (IntelliJ, PyCharm) for working with Hopsworks.  
 
-### Intellij/PyCharm plugin for executing comman job commands on Hopsworks platform. Work locally on your Intellij or PyCharm IDE and execute job actions directly on Hopsworks (create,run,stop,etc.)
+### IntelliJ/PyCharm plugin for executing common job commands on Hopsworks platform. Work locally on your IntelliJ or PyCharm IDE and execute job actions directly on Hopsworks (create,run,stop,etc.)
 
 * Install the plugin with built zip 'hops-intellij-1.0-SNAPSHOT.zip' 
 * Access the 'Hopsworks Job Preferences' for specifying user preferences under Settings -> Tools -> Hopsworks Job Preferences. 
