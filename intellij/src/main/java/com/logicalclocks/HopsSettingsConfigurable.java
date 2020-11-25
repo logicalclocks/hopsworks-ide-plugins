@@ -174,7 +174,7 @@ public class HopsSettingsConfigurable implements Configurable {
         stored_flNumSlots=properties.getValue(PATH_FL_NUM_SLOTS);
         stored_flJobManMem=properties.getValue(PATH_FL_JOB_MANAGER_MEM);
         stored_flNumTaskMan=properties.getValue(PATH_FL_NUM_TASK_MANGER);
-        //advance
+        //advanced
         storedAddFile=properties.getValue(PATH_ADDFILE);
         storedAddJar=properties.getValue(PATH_ADDJAR);
         storedPythonDepend=properties.getValue(PATH_PYTHON_DEPEND);
