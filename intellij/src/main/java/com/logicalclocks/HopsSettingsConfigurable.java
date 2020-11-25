@@ -46,9 +46,7 @@ public class HopsSettingsConfigurable implements Configurable {
     private JTextField pythonDepend  = new JTextField();
     private JTextArea moreProps  = new JTextArea();
     //job config params
-    //private JTextField driverMem  = new JTextField(CONST_2048);
     private JTextField driverMem  = new JTextField(CONST_2048);
-
     private JTextField executorMem  = new JTextField(CONST_4096);
     private JTextField execVC  = new JTextField(CONST_1);
     private JTextField driverVC  = new JTextField(CONST_1);
@@ -56,7 +54,7 @@ public class HopsSettingsConfigurable implements Configurable {
     private JTextField initExecutor  = new JTextField(CONST_1);
     private JTextField minExecutor  = new JTextField(CONST_1);
     private JTextField maxExecutor  = new JTextField(CONST_1);
-    //python configs"4096"
+    //python configs
     private JTextField memory  = new JTextField(CONST_2048);
     private JTextField cpuCore  = new JTextField(CONST_1);
     //flink configs
@@ -74,9 +72,7 @@ public class HopsSettingsConfigurable implements Configurable {
     private JLabel additionalJarsLabel = new JLabel(JARS_LBL);
     private JLabel pythonDependLabel  = new JLabel(PYTHON_LBL);
     private JLabel morePropsLabel  = new JLabel(MORE_PROP_LBL);
-
-
-
+    // stored values variables
     private static String storedUrl = null;
     private static String storedKey = null;
     private static String storedProject = null;
@@ -87,7 +83,7 @@ public class HopsSettingsConfigurable implements Configurable {
     private static String storedMainClass = null;
     private static String storedExecId = null;
     private static String storedJobType =null;
-    //advance configs
+    //advanced configs
     private static String storedAddFile=null;
     private static String storedAddJar=null;
     private static String storedPythonDepend=null;
@@ -273,7 +269,7 @@ public class HopsSettingsConfigurable implements Configurable {
             numExecutor.setVisible(true);
         }
 
-        //add advance checkbox button
+        //add advanced checkbox button
         JPanel buttonPanel2=new JPanel();
         buttonPanel2.setLayout(new BoxLayout(buttonPanel2,BoxLayout.X_AXIS));
         advanceBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -283,7 +279,7 @@ public class HopsSettingsConfigurable implements Configurable {
         } else advanceBtn.setSelected(false);
         advanceBtn.addActionListener(advanceAction);
         buttonPanel2.add(advanceBtn);
-        //advance config panel
+        //advanced config panel
         GridLayoutManager layout2=new GridLayoutManager(advanceFieldmap.size()+1, 2);
         layout2.setVGap(layoutVGAP);
         layout2.setMargin(margin);
@@ -323,7 +319,7 @@ public class HopsSettingsConfigurable implements Configurable {
         superPanel.add(jobConfigPanel); // job config parameters 3rd panel
         superPanel.add(buttonPanel2); // checkbox
         if(!isAdvancedConfig)
-        advanceInputPanel.setVisible(false); // advance configs
+        advanceInputPanel.setVisible(false); // advanced configs
         else advanceInputPanel.setVisible(true);
         superPanel.add(advanceInputPanel);
 
@@ -402,7 +398,7 @@ public class HopsSettingsConfigurable implements Configurable {
         flinkConfigMap.put(HopsPluginUtils.NUM_TASK_LBL, numTaskManager);
         flinkConfigMap.put(HopsPluginUtils.TASK_MANAGER_MM_LBL,taskManagerMem);
         flinkConfigMap.put(HopsPluginUtils.NUM_SLOT_LBL,numSlots);
-        // advance panel
+        // advanced panel
         advanceFieldmap.put(ARCHIVES_LBL,archives);
         advanceFieldmap.put(HopsPluginUtils.JARS_LBL,additionalJars);
         advanceFieldmap.put(HopsPluginUtils.PYTHON_LBL,pythonDepend);
@@ -490,7 +486,7 @@ public class HopsSettingsConfigurable implements Configurable {
     };
 
     /**
-     * Listerner for advance config selected
+     * Listerner for advanced config selected
      */
     ActionListener advanceAction= new ActionListener() {
         @Override
@@ -557,7 +553,7 @@ public class HopsSettingsConfigurable implements Configurable {
                 properties.setValue(PATH_SP_MAX_EXEC,stored_spMaxExec);
                 properties.setValue(PATH_SP_MIN_EXEC,stored_spMinExec);
             }
-            //jobconfigs
+            //job configs
             properties.setValue(PATH_IS_SPARK_DYNAMIC,isSparkDynamic);
             properties.setValue(PATH_SP_DRIVER_VC,stored_spDriverVC);
             properties.setValue(PATH_SP_DRVERMEM,stored_spDriverMem);
@@ -581,7 +577,7 @@ public class HopsSettingsConfigurable implements Configurable {
             properties.setValue(PATH_FL_NUM_SLOTS,stored_flNumSlots);
         }
 
-        //advance config params
+        //advanced config params
         if(advanceBtn.isSelected()) isAdvancedConfig=true;
         else isAdvancedConfig=false;
         storedAddFile=additionalFiles.getText().trim();
@@ -601,7 +597,7 @@ public class HopsSettingsConfigurable implements Configurable {
         properties.setValue(HopsPluginUtils.PATH_MAINCLASS, storedMainClass);
         properties.setValue(HopsPluginUtils.PATH_EXECID, storedExecId);
         properties.setValue(HopsPluginUtils.PATH_JOBTYPE, storedJobType);
-        //advance config
+        //advanced config
         properties.setValue(PATH_IS_ADVANCED,isAdvancedConfig);
         properties.setValue(PATH_ADDFILE, storedAddFile);
         properties.setValue(PATH_ADDJAR, storedAddJar);

@@ -44,7 +44,6 @@ public class HopsPluginUtils {
     public static final String PATH_SP_INIT_EXEC = "hops.initialExecutor";
     public static final String PATH_SP_MAX_EXEC = "hops.maxExecutor";
     public static final String PATH_SP_MIN_EXEC = "hops.minExecutor";
-
     //python
     public static final String PATH_PY_MEMORY = "hops.memory";
     public static final String PATH_PY_CPU_CORE = "hops.cpuCore";
@@ -94,7 +93,6 @@ public class HopsPluginUtils {
     public static final String MAX_EXEC_LBL = "Maximum Executors";
     public static final String INIT_EXEC_LBL = "Initial Executors";
     public static final String MIN_EXEC_LBL = "Minimum Executors";
-
     public static final String CONST_2048="2048";
     public static final String CONST_4096="4096";
     public static final String CONST_1024="1024";
@@ -106,8 +104,7 @@ public class HopsPluginUtils {
     private final HashMap<String,Integer> jobTypeCode=new HashMap<String,Integer>();
 
     public HopsPluginUtils(){
-        // Setting JOB TYPE //TO DO configurable job type
-        /*
+
 
     }
 
@@ -159,7 +156,8 @@ public class HopsPluginUtils {
         PropertiesComponent properties = PropertiesComponent.getInstance(project);
         return properties.getValue(PATH_JOBTYPE);
     }
-    //advance configs getters//
+
+    //advanced configs getters//
     public String getAdvancedArchive(Project project){
         PropertiesComponent properties = PropertiesComponent.getInstance(project);
         return properties.getValue(PATH_ARCHIVE);
@@ -188,7 +186,7 @@ public class HopsPluginUtils {
         return properties.getBoolean(PATH_IS_ADVANCED);
     }
 
-    //advance config getters//
+    //advanced config getters//
 
     //job config parameters getters//
     public String getDriverMemory(Project project){
@@ -260,43 +258,6 @@ public class HopsPluginUtils {
 
 
 
-    /*
-        UNUSED NOW
-         */
-    public String getJobType(String fileName){
-        String ext= FilenameUtils.getExtension(fileName);
-        Integer c=jobTypeCode.get(ext);
-            switch (c.toString()) {
-                case "1":
-                    return SPARK;
-                case "2":
-                    return PYSPARK;
-                case "3":
-                    return FLINK;
-                case "4":
-                    return PYTHON;
-                default:
-                    return null;
-            }
-    }
-
-        /*
-        UNUSED NOW
-         */
-    public String getJobConfigType(String jobType){
-
-        switch(jobType){
-            case SPARK:
-                return SPARK_CONFIG;
-            case PYSPARK:
-                return SPARK_CONFIG;
-            case PYTHON:
-                return PYTHON_CONFIG;
-            default:
-                return SPARK_CONFIG;
-        }
-    }
-
 
     public static JPanel createInputPanel(JPanel panel, LinkedHashMap<String, Component> map) {
 
@@ -308,14 +269,6 @@ public class HopsPluginUtils {
             panel=createField(panel,j,pair.getKey(),pair.getValue());
             j++;
         }
-
-        /*JPanel spacer = new JPanel();
-        GridConstraints spacerConstraints = new GridConstraints();
-        spacerConstraints.setRow(j);
-        spacerConstraints.setFill(GridConstraints.FILL_BOTH);
-        panel.add(spacer, spacerConstraints);
-        */
-
 
         return panel;
 
