@@ -1,0 +1,51 @@
+<idea-plugin>
+    <id>com.logicalclocks.hops-intellij</id>
+    <name>Hopsworks</name>
+    <vendor email="jim@logicalclocks.com" url="http://www.logicalclocks.com">Logical Clocks AB</vendor>
+
+
+
+    <description>
+        Hopsworks plugin to deploy and run programs on a cluster.
+    </description>
+    <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <projectConfigurable groupId="tools"
+                             displayName="Hopsworks Job Preferences"
+                             instance="com.logicalclocks.HopsSettingsConfigurable" />
+
+        <notificationGroup id="Hopsworks Notification" displayType="BALLOON" />
+
+    </extensions>
+
+
+
+
+    <actions>
+        <action id="createJob" class="com.logicalclocks.actions.HopsCreateJob" text="Create Hopsworks Job">
+            <add-to-group group-id="ProjectViewPopupMenuRunGroup" anchor="first" />
+        </action>
+        <action id="jobRun" class="com.logicalclocks.actions.HopsRunJob" text="Run Hopsworks Job">
+            <add-to-group group-id="ProjectViewPopupMenuRunGroup" anchor="after" relative-to-action="createJob"/>
+        </action>
+        <action id="jobStop" class="com.logicalclocks.actions.HopsStopJob" text="Stop Hopsworks Job">
+            <add-to-group group-id="ProjectViewPopupMenuRunGroup" anchor="after" relative-to-action="jobRun"/>
+        </action>
+        <action id="jobRemove" class="com.logicalclocks.actions.HopsRemoveJob" text="Delete Hopsworks Job"
+                description="Deletes job from Hopsworks ">
+            <add-to-group group-id="ProjectViewPopupMenuRunGroup" anchor="after" relative-to-action="jobStop"/>
+        </action>
+        <action id="jobStatus" class="com.logicalclocks.actions.HopsJobStatus" text="Job Execution Status">
+            <add-to-group group-id="ProjectViewPopupMenuRunGroup" anchor="after" relative-to-action="jobRemove"/>
+        </action>
+        <action id="jobLogs" class="com.logicalclocks.actions.HopsJobLogs" text="Job Execution Logs">
+            <add-to-group group-id="ProjectViewPopupMenuRunGroup" anchor="after" relative-to-action="jobStatus"/>
+        </action>
+
+    </actions>
+
+</idea-plugin>
