@@ -20,6 +20,7 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.logicalclocks.HopsPluginUtils;
+import com.logicalclocks.PluginNoticifaction;
 import io.hops.cli.action.FileUploadAction;
 import io.hops.cli.action.JobCreateAction;
 import io.hops.cli.config.HopsworksAPIConfig;
@@ -118,19 +119,19 @@ public class HopsCreateJob extends AnAction {
             } else PluginNoticifaction.notify(e.getProject(), "Job Creation Failed: " + jobName);
 
         } catch (IOException ioException) {
-            PluginNoticifaction.notifyError(ioException.getMessage());
+            PluginNoticifaction.notifyError(e.getProject(),ioException.getMessage());
             Logger.getLogger(JobCreateAction.class.getName()).log(Level.SEVERE, ioException.getMessage(), ioException);
         } catch (NullPointerException nullPointerException) {
             if (hopsProject == null) {
-                PluginNoticifaction.notifyError( util.INVALID_PROJECT);
+                PluginNoticifaction.notifyError( e.getProject(),util.INVALID_PROJECT);
                 Logger.getLogger(HopsCreateJob.class.getName()).log(Level.SEVERE, nullPointerException.toString(), nullPointerException);
             } else {
-                PluginNoticifaction.notifyError(nullPointerException.toString());
+                PluginNoticifaction.notifyError(e.getProject(),nullPointerException.toString());
 
             }
             Logger.getLogger(HopsCreateJob.class.getName()).log(Level.SEVERE, nullPointerException.toString(), nullPointerException);
         } catch (Exception exception) {
-            PluginNoticifaction.notifyError(exception.toString());
+            PluginNoticifaction.notifyError(e.getProject(),exception.toString());
             Logger.getLogger(HopsCreateJob.class.getName()).log(Level.SEVERE, exception.getMessage(), exception);
         }
 

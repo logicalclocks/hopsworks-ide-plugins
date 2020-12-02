@@ -19,6 +19,7 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.logicalclocks.HopsPluginUtils;
+import com.logicalclocks.PluginNoticifaction;
 import io.hops.cli.action.FileUploadAction;
 import io.hops.cli.action.JobRunAction;
 import io.hops.cli.config.HopsworksAPIConfig;
@@ -58,7 +59,7 @@ public class HopsRunJob extends AnAction {
             //execute run job
             io.hops.cli.action.JobRunAction runJob=new io.hops.cli.action.JobRunAction(hopsworksAPIConfig,jobName,userArgs);
             if(!runJob.getJobExists()){ //check job exists
-                PluginNoticifaction.notifyError(util.INVALID_JOBNAME+ jobName);
+                PluginNoticifaction.notifyError(e.getProject(),util.INVALID_JOBNAME+ jobName);
                 return;
             }
             int status=runJob.execute();
@@ -69,18 +70,18 @@ public class HopsRunJob extends AnAction {
             } else PluginNoticifaction.notify(e.getProject()," Job: "+jobName+" | Start Failed");
 
         } catch (IOException ex) {
-            PluginNoticifaction.notifyError(ex.getMessage());
+            PluginNoticifaction.notifyError(e.getProject(),ex.getMessage());
             Logger.getLogger(JobRunAction.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         } catch (NullPointerException nullPointerException) {
             if (hopsProject == null) {
-                PluginNoticifaction.notifyError(util.INVALID_PROJECT);
+                PluginNoticifaction.notifyError(e.getProject(),util.INVALID_PROJECT);
                 Logger.getLogger(HopsCreateJob.class.getName()).log(Level.SEVERE, nullPointerException.toString(), nullPointerException);
             } else {
-                PluginNoticifaction.notifyError(nullPointerException.toString());
+                PluginNoticifaction.notifyError(e.getProject(),nullPointerException.toString());
                 Logger.getLogger(HopsCreateJob.class.getName()).log(Level.SEVERE, nullPointerException.toString(), nullPointerException);
             }
         } catch (Exception ex) {
-            PluginNoticifaction.notify(ex.getMessage());
+            PluginNoticifaction.notify(e.getProject(),ex.getMessage());
             Logger.getLogger(HopsRunJob.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
 

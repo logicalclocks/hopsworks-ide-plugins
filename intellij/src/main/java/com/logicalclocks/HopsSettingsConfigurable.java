@@ -19,6 +19,7 @@ import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.util.ui.JBUI;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
@@ -218,7 +219,7 @@ public class HopsSettingsConfigurable implements Configurable {
         //add primary input text field panel
         GridLayoutManager layout = new GridLayoutManager(constantFieldsMap.size() + 1, 2);
         layout.setVGap(layoutVGAP);
-        Insets margin = new Insets(5, 0, 0, 0);
+        Insets margin = JBUI.insetsTop(5);
         layout.setMargin(margin);
         inputPanel = new JPanel(layout);
         Border br = BorderFactory.createTitledBorder("Primary Inputs");

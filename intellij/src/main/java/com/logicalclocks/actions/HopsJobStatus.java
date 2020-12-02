@@ -18,6 +18,7 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.logicalclocks.HopsPluginUtils;
+import com.logicalclocks.PluginNoticifaction;
 import io.hops.cli.action.JobStatusAction;
 import io.hops.cli.config.HopsworksAPIConfig;
 
@@ -55,14 +56,14 @@ public class HopsJobStatus extends AnAction {
                 String[] arr=jobStatus.getJobStatusArr();
                 StringBuilder sb=new StringBuilder("Job: ").append(jobName).append(" | Execution Id: ").append(jobStatus.getExecutionId()).append(" | State: ").append(arr[0]).append( " | Final Status: ").append(arr[1]);
                 PluginNoticifaction.notify(e.getProject(),sb.toString());
-            }else PluginNoticifaction.notifyError("Failed to get job status");
+            }else PluginNoticifaction.notifyError(e.getProject(),"Failed to get job status");
 
         } catch (IOException ex) {
             Logger.getLogger(io.hops.cli.action.JobStatusAction.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            PluginNoticifaction.notifyError(ex.getMessage());
+            PluginNoticifaction.notifyError(e.getProject(),ex.getMessage());
         }catch (Exception ex) {
             Logger.getLogger(JobStatusAction.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            PluginNoticifaction.notifyError(ex.getMessage());
+            PluginNoticifaction.notifyError(e.getProject(),ex.getMessage());
         }
     }
 }

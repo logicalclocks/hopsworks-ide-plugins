@@ -19,6 +19,7 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.logicalclocks.HopsPluginUtils;
+import com.logicalclocks.PluginNoticifaction;
 import io.hops.cli.action.JobLogsAction;
 import io.hops.cli.config.HopsworksAPIConfig;
 
@@ -71,13 +72,13 @@ public class HopsJobLogs extends AnAction {
                 //notify
                 StringBuilder sb3=new StringBuilder().append(" Job: ").append(jobName).append(" | Execution Id: ").append(logsJob.getExecutionId()).append(" | Logs downloaded");
                 PluginNoticifaction.notify(e.getProject(),sb3.toString());
-            } else PluginNoticifaction.notifyError(" Job: "+jobName+" | Get Logs Failed");
+            } else PluginNoticifaction.notifyError(e.getProject()," Job: "+jobName+" | Get Logs Failed");
 
         } catch (IOException ex) {
-            PluginNoticifaction.notifyError(ex.getMessage());
+            PluginNoticifaction.notifyError(e.getProject(),ex.getMessage());
             Logger.getLogger(JobLogsAction.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         } catch (Exception ex) {
-            PluginNoticifaction.notifyError(ex.getMessage());
+            PluginNoticifaction.notifyError(e.getProject(),ex.getMessage());
             Logger.getLogger(HopsJobLogs.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
 

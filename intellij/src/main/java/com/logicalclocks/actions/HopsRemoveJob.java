@@ -18,6 +18,7 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.logicalclocks.HopsPluginUtils;
+import com.logicalclocks.PluginNoticifaction;
 import io.hops.cli.action.JobRemoveAction;
 import io.hops.cli.config.HopsworksAPIConfig;
 
@@ -51,16 +52,16 @@ public class HopsRemoveJob extends AnAction {
                 int status=rmJob.execute();
 
                 if (status == 200 || status == 204 || status == 202) {
-                    PluginNoticifaction.notify("Job: "+jobName+" | Deleted");
-                } else PluginNoticifaction.notifyError("Job: "+jobName+" | Remove failed");
+                    PluginNoticifaction.notify(e.getProject(),"Job: "+jobName+" | Deleted");
+                } else PluginNoticifaction.notifyError(e.getProject(),"Job: "+jobName+" | Remove failed");
 
             } catch (IOException ex) {
-                PluginNoticifaction.notifyError(ex.getMessage());
+                PluginNoticifaction.notifyError(e.getProject(),ex.getMessage());
                 Logger.getLogger(JobRemoveAction.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             }catch (Exception ex) {
 
                 Logger.getLogger(HopsRemoveJob.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-                PluginNoticifaction.notifyError(ex.getMessage());
+                PluginNoticifaction.notifyError(e.getProject(),ex.getMessage());
             }
 
     }

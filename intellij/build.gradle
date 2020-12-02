@@ -14,7 +14,7 @@
 
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.6.4'
+    id 'org.jetbrains.intellij' version '0.6.5'
 }
 
 group 'com.logicalclocks'
@@ -28,7 +28,8 @@ repositories {
 }
 
 dependencies {
-    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     implementation "org.apache.commons:commons-lang3:3.8.1"
     implementation "org.glassfish:javax.json:1.1.2"
     implementation "javax.json:javax.json-api:1.1.2"
@@ -45,7 +46,7 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version '2020.2'
+    version '2020.3'
 }
 
 

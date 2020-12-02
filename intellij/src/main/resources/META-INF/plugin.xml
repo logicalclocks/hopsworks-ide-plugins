@@ -3,13 +3,10 @@
     <name>Hopsworks</name>
     <vendor email="jim@logicalclocks.com" url="http://www.logicalclocks.com">Logical Clocks AB</vendor>
 
-<!--    <description><![CDATA[
-    Hopsworks plugin to deploy and run programs on a cluster.<br>
-    <em>most HTML tags may be used</em>
-    ]]></description>-->
+
 
     <description>
-    Hopsworks plugin to deploy and run programs on a cluster.
+        Hopsworks plugin to deploy and run programs on a cluster.
     </description>
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
@@ -17,13 +14,19 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
-            <projectConfigurable groupId="tools"
+        <projectConfigurable groupId="tools"
                              displayName="Hopsworks Job Preferences"
                              instance="com.logicalclocks.HopsSettingsConfigurable" />
-     </extensions>
+
+        <notificationGroup id="Hopsworks Notification" displayType="BALLOON" />
+
+    </extensions>
+
+
+
 
     <actions>
-       <action id="createJob" class="com.logicalclocks.actions.HopsCreateJob" text="Create Hopsworks Job">
+        <action id="createJob" class="com.logicalclocks.actions.HopsCreateJob" text="Create Hopsworks Job">
             <add-to-group group-id="ProjectViewPopupMenuRunGroup" anchor="first" />
         </action>
         <action id="jobRun" class="com.logicalclocks.actions.HopsRunJob" text="Run Hopsworks Job">
