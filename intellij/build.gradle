@@ -18,7 +18,7 @@ plugins {
 }
 
 group 'com.logicalclocks'
-version '1.0-SNAPSHOT'
+version '2.1.0'
 
 repositories {
     maven {
