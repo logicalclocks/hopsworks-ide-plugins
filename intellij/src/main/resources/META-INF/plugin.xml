@@ -12,22 +12,10 @@
         </p>
         <h4 id="usage">Usage</h4>
         <ul>
-
         <li>Open the <b>Hopsworks Job Preferences</b> UI for specifying user preferences under <b>Settings -&gt; Tools -&gt; Hopsworks Job Preferences</b>. </li>
         <li>Input the Hopworks project preferences and job details you wish to work on. </li>
         <li>Open a Project and within the Project Explorer right click on the program ( .jar, .py, .ipynb) you wish to execute as a job on Hopsworks. Different job actions possible are available in the context menu  ( Create, Run, Stop, etc.) </li>
-        <ul>
-        <li><strong>Note:</strong> The Job Type <code>Python</code> only supports Hopsworks-EE </li>
-        </ul>
-        <h5 id="actions">Actions</h5>
-        <ul>
-        <li><strong>Create:</strong> Create or update job as specified in Hopsworks Job Preferences</li>
-        <li><strong>Run:</strong> Uploads the program first to the HDFS path as specficied and runs job </li>
-        <li><strong>Stop:</strong> Stops a job</li>
-        <li><strong>Delete:</strong> Deletes a job</li>
-        <li><strong>Job Execution Status / Job Execution Logs:</strong> Get the job status or logs respectively. You have the option of retrieving a particular job execution by specifying the execution id in the &#39;Hopsworks Job Preferences&#39; UI, otherwise default is the last execution for the job name specified. </li>
-        </ul>
-
+        <li>For &#39;Job Execution Status&#39; and &#39;Job Execution Logs&#39; actions you have the option of retrieving a particular execution details by specifying the execution id in the &#39;Hopsworks Job Preferences&#39; UI. If not specified, the last execution for the job name specified is retrieved. </li>
         </ul>
         ]]>
     </description>
