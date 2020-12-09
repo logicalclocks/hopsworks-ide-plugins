@@ -1,12 +1,23 @@
 <idea-plugin>
     <id>com.logicalclocks.hops-intellij</id>
     <name>Hopsworks</name>
-    <vendor email="jim@logicalclocks.com" url="http://www.logicalclocks.com">Logical Clocks AB</vendor>
+    <vendor email="info@logicalclocks.com" url="http://www.logicalclocks.com">Logical Clocks AB</vendor>
 
 
 
     <description>
-        Hopsworks plugin to deploy and run programs on a cluster.
+        <![CDATA[
+        <p>Plugin to interact with your Hopsworks cluster. Develop locally in your favourite IDE and execute job actions directly on your Hopsworks cluster.
+        Read more about Jobs on <a href="https://hopsworks.readthedocs.io/en/stable/user_guide/hopsworks/jobs.html">Hopsworks Docs</a>
+        </p>
+        <h4 id="usage">Usage</h4>
+        <ul>
+        <li>Open the <b>Hopsworks Job Preferences</b> UI for specifying user preferences under <b>Settings -&gt; Tools -&gt; Hopsworks Job Preferences</b>. </li>
+        <li>Input the Hopworks project preferences and job details you wish to work on. </li>
+        <li>Open a Project and within the Project Explorer right click on the program ( .jar, .py, .ipynb) you wish to execute as a job on Hopsworks. Different job actions possible are available in the context menu  ( Create, Run, Stop, etc.) </li>
+        <li>For &#39;Job Execution Status&#39; and &#39;Job Execution Logs&#39; actions you have the option of retrieving a particular execution details by specifying the execution id in the &#39;Hopsworks Job Preferences&#39; UI. If not specified, the last execution for the job name specified is retrieved. </li>
+        </ul>
+        ]]>
     </description>
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
