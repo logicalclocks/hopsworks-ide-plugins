@@ -57,7 +57,7 @@ patchPluginXml {
 }
 
 publishPlugin {
-    //channels 'beta'
+    channels 'beta'
     token = System.getenv("JETBRAINS_TOKEN")
 }
 
