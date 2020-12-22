@@ -55,3 +55,9 @@ patchPluginXml {
       First version of Hopsworks IntelliJ/PyCharm Plugin.<br>
       <em>https://github.com/logicalclocks/hopsworks</em>"""
 }
+
+publishPlugin {
+    channels 'beta'
+    token = System.getenv("JETBRAINS_TOKEN")
+}
+
