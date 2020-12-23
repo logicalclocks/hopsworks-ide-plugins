@@ -53,7 +53,12 @@ public class HopsRemoveJob extends AnAction {
 
                 if (status == 200 || status == 204 || status == 202) {
                     PluginNoticifaction.notify(e.getProject(),"Job: "+jobName+" | Deleted");
-                } else PluginNoticifaction.notifyError(e.getProject(),"Job: "+jobName+" | Remove failed");
+                } else {
+                    if (rmJob.getJsonResult().containsKey("usrMsg"))
+                        PluginNoticifaction.notify(e.getProject()," Job Remove Failed | "+rmJob.getJsonResult().getString("usrMsg"));
+
+                    else PluginNoticifaction.notifyError(e.getProject(),"Job: "+jobName+" | Remove failed");
+                }
 
             } catch (IOException ex) {
                 PluginNoticifaction.notifyError(e.getProject(),ex.getMessage());

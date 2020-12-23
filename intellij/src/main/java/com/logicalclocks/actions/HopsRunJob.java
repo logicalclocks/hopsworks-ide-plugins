@@ -64,10 +64,17 @@ public class HopsRunJob extends AnAction {
             }
             int status=runJob.execute();
 
+
             if (status == 200 || status == 201) {
-                StringBuilder sb=new StringBuilder(" Job Started: ").append(jobName).append(" | Execution Id: ").append(runJob.getExecId());
+                StringBuilder sb=new StringBuilder(" Job Started: ").append(jobName).append(" | Execution Id: ").append(runJob.getJsonResult().getInt("id"));
                 PluginNoticifaction.notify(e.getProject(),sb.toString());
-            } else PluginNoticifaction.notify(e.getProject()," Job: "+jobName+" | Start Failed");
+            } else {
+                if(runJob.getJsonResult().containsKey("usrMsg"))
+                    PluginNoticifaction.notify(e.getProject()," Job Run Failed | "+runJob.getJsonResult().getString("usrMsg"));
+
+                else PluginNoticifaction.notify(e.getProject()," Job: "+jobName+" | Run Failed");
+            }
+
 
         } catch (IOException ex) {
             PluginNoticifaction.notifyError(e.getProject(),ex.getMessage());
