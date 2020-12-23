@@ -51,7 +51,12 @@ public class HopsStopJob extends AnAction {
 
             if (status == 200 || status == 201 || status == 202) {
                 PluginNoticifaction.notify(e.getProject(),"Job: "+jobName +" | Stopped");
-            }  else PluginNoticifaction.notifyError(e.getProject(),"Job: "+jobName +" | Stop failed");
+            }  else {
+                if (stopJob.getJsonResult().containsKey("usrMsg"))
+                    PluginNoticifaction.notify(e.getProject()," Job Stop Failed | "+stopJob.getJsonResult().getString("usrMsg"));
+
+                PluginNoticifaction.notifyError(e.getProject(),"Job: "+jobName +" | Stop failed");
+            }
 
         } catch (IOException ex) {
             PluginNoticifaction.notifyError(e.getProject(),ex.getMessage());

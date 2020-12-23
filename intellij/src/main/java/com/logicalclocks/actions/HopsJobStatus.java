@@ -56,7 +56,12 @@ public class HopsJobStatus extends AnAction {
                 String[] arr=jobStatus.getJobStatusArr();
                 StringBuilder sb=new StringBuilder("Job: ").append(jobName).append(" | Execution Id: ").append(jobStatus.getExecutionId()).append(" | State: ").append(arr[0]).append( " | Final Status: ").append(arr[1]);
                 PluginNoticifaction.notify(e.getProject(),sb.toString());
-            }else PluginNoticifaction.notifyError(e.getProject(),"Failed to get job status");
+            }else {
+                if (jobStatus.getJsonResult().containsKey("usrMsg"))
+                    PluginNoticifaction.notify(e.getProject()," Job Run Failed | "+jobStatus.getJsonResult().getString("usrMsg"));
+
+                else PluginNoticifaction.notifyError(e.getProject(),"Failed to get job status");
+            }
 
         } catch (IOException ex) {
             Logger.getLogger(io.hops.cli.action.JobStatusAction.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
