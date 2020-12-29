@@ -116,7 +116,12 @@ public class HopsCreateJob extends AnAction {
 
             if (status == 200 || status == 201) {
                 PluginNoticifaction.notify(e.getProject(), "Job Created: " + jobName);
-            } else PluginNoticifaction.notify(e.getProject(), "Job Creation Failed: " + jobName);
+            }else {
+                if(createJob.getJsonResult().containsKey("usrMsg"))
+                    PluginNoticifaction.notify(e.getProject()," Job Create Failed | "+createJob.getJsonResult().getString("usrMsg"));
+
+                else PluginNoticifaction.notify(e.getProject(), "Job Creation Failed: " + jobName);
+            }
 
         } catch (IOException ioException) {
             PluginNoticifaction.notifyError(e.getProject(),ioException.getMessage());
