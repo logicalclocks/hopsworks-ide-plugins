@@ -14,15 +14,16 @@
 
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.6.5'
+    id "org.jetbrains.intellij" version "0.7.3"
 }
 
 group 'com.logicalclocks'
-version '2.1.0.1'
+version '2.1.0.2'
 
 repositories {
     maven {
         url "https://archiva.hops.works/repository/Hops/"
+
     }
     mavenCentral()
 }
@@ -46,18 +47,19 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version '2020.3'
+    version 'LATEST-EAP-SNAPSHOT'
 }
 
 
 patchPluginXml {
     changeNotes """
-      First version of Hopsworks IntelliJ/PyCharm Plugin.<br>
+      Plugin update for latest idea build 2021.1.<br>
       <em>https://github.com/logicalclocks/hopsworks</em>"""
 }
 
 publishPlugin {
-    //channels 'beta'
+
     token = System.getenv("JETBRAINS_TOKEN")
 }
+
 
