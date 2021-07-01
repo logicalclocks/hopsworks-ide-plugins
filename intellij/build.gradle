@@ -18,7 +18,7 @@ plugins {
 }
 
 group 'com.logicalclocks'
-version '2.1.0.2'
+version '2.1.0.3'
 
 repositories {
     maven {
@@ -47,7 +47,7 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version 'LATEST-EAP-SNAPSHOT'
+    version '2021.1'
 }
 
 
@@ -62,4 +62,6 @@ publishPlugin {
     token = System.getenv("JETBRAINS_TOKEN")
 }
 
-
+runPluginVerifier {
+    ideVersions '2021.1.3'
+}
