@@ -18,7 +18,8 @@ plugins {
 }
 
 group 'com.logicalclocks'
-version '2.1.0.3'
+version '2.1.0.4'
+
 
 repositories {
     maven {
@@ -42,7 +43,7 @@ dependencies {
     implementation "org.apache.httpcomponents:httpclient:4.5.8"
     implementation "org.apache.httpcomponents:httpmime:4.5"
     implementation "com.beust:jcommander:1.72"
-    implementation "io.hops:hopsworks-cli:2.1.0"
+    implementation "io.hops:hopsworks-cli:2.2.1"
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
@@ -53,7 +54,7 @@ intellij {
 
 patchPluginXml {
     changeNotes """
-      Plugin update for latest idea build 2021.1.<br>
+      Now supports running flink jobs.<br>
       <em>https://github.com/logicalclocks/hopsworks</em>"""
 }
 

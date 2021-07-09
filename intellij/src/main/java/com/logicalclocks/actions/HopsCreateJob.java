@@ -24,9 +24,11 @@ import com.logicalclocks.PluginNoticifaction;
 import io.hops.cli.action.FileUploadAction;
 import io.hops.cli.action.JobCreateAction;
 import io.hops.cli.config.HopsworksAPIConfig;
+import org.apache.http.HttpStatus;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,7 +43,7 @@ public class HopsCreateJob extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
-        // TODO : Check File Separator hardcoding
+
         HopsPluginUtils util = new HopsPluginUtils();
         Project proj = e.getProject();
         String hopsworksApiKey = util.getAPIKey(proj);
@@ -51,70 +53,76 @@ public class HopsCreateJob extends AnAction {
         String destination = util.getDestination(proj);
         String mainClass = util.getUserMainClass(proj);
         String userArgs = util.getUserArgs(proj);
-        String localFilePath = e.getDataContext().getData("virtualFile").toString();
+        String localFilePath = Objects.requireNonNull(e.getDataContext().getData("virtualFile")).toString();
 
         File file = new File(localFilePath);
-        String finalPath = destination + '/' + file.getName();
+        String finalPath = destination + File.separator + file.getName();
         String jobType = util.getUserJobType(e.getProject());
         String hopsProject = null;
 
         try {
             HopsworksAPIConfig hopsworksAPIConfig = new HopsworksAPIConfig(hopsworksApiKey, hopsworksUrl, projectName);
             //upload program
-            FileUploadAction action = new FileUploadAction(hopsworksAPIConfig, destination, localFilePath);
-            hopsProject = action.getProjectId(); //check if valid project,throws null pointer
-
-            action.execute();
+            FileUploadAction uploadAction = new FileUploadAction(hopsworksAPIConfig, destination, localFilePath);
+            hopsProject = uploadAction.getProjectId(); //check if valid project,throws null pointer
+            // upload program if not flink
+            if (!jobType.equals(HopsPluginUtils.FLINK))
+                uploadAction.execute();
             //set program configs
-            io.hops.cli.action.JobCreateAction.Args args = new io.hops.cli.action.JobCreateAction.Args();
+            JobCreateAction.Args args = new JobCreateAction.Args();
             args.setMainClass(mainClass); //set user provides,overridden by inspect job config
             args.setAppPath(finalPath); //full app path
             args.setJobType(jobType);  // spark/pyspark/python
             args.setCommandArgs(userArgs.trim());
-            if (jobType.equals(HopsPluginUtils.SPARK)) {
-                args.setDriverMemInMbs(Integer.parseInt(util.getDriverMemory(proj)));
-                args.setDriverVC(Integer.parseInt(util.getDriverVC(proj)));
-                args.setExecutorMemInMbs(Integer.parseInt(util.getExecutorMemory(proj)));
-                args.setExecutorVC(Integer.parseInt(util.getExecutorVC(proj)));
-                args.setDynamic(util.isSparkDynamic(proj));
-                if (!util.isSparkDynamic(proj))
-                    args.setNumExecutors(Integer.parseInt(util.getNumberExecutor(proj)));
-                else {
-                    args.setInitExecutors(Integer.parseInt(util.getInitExec(proj)));
-                    args.setMaxExecutors(Integer.parseInt(util.getMaxExec(proj)));
-                    args.setMinExecutors(Integer.parseInt(util.getMinExec(proj)));
-                }
-                if (util.isAdvanced(proj)) {
-                    args.setAdvanceConfig(true);
-                    args.setArchives(util.getAdvancedArchive(proj));
-                    args.setFiles(util.getAdvancedFiles(proj));
-                    args.setPythonDependency(util.getPythonDependency(proj));
-                    args.setJars(util.getAdvancedJars(proj));
-                    args.setProperties(util.getMoreProperties(proj));
-                }
-            } else if (jobType.equals(HopsPluginUtils.PYTHON)) {
-                args.setPythonMemory(Integer.parseInt(util.getPythonMemory(proj)));
-                args.setCpusCores(Integer.parseInt(util.getPythonCpuCores(proj)));
-                if (util.isAdvanced(proj)) {
-                    args.setAdvanceConfig(true);
-                    args.setFiles(util.getAdvancedFiles(proj));
-                }
-            } else if (jobType.equals(HopsPluginUtils.FLINK)) {
-                args.setJobManagerMemory(Integer.parseInt(util.getJobManagerMemory(proj)));
-                args.setTaskManagerMemory(Integer.parseInt(util.getTaskManagerMemory(proj)));
-                args.setNumTaskManager(Integer.parseInt(util.getNumTaskManager(proj)));
-                args.setNumSlots(Integer.parseInt(util.getNumberSlots(proj)));
-                if (util.isAdvanced(proj)) {
-                    args.setAdvanceConfig(true);
-                    args.setProperties(util.getMoreProperties(proj));
-                }
+            switch (jobType) {
+                case HopsPluginUtils.SPARK:
+                    args.setDriverMemInMbs(Integer.parseInt(util.getDriverMemory(proj)));
+                    args.setDriverVC(Integer.parseInt(util.getDriverVC(proj)));
+                    args.setExecutorMemInMbs(Integer.parseInt(util.getExecutorMemory(proj)));
+                    args.setExecutorVC(Integer.parseInt(util.getExecutorVC(proj)));
+                    args.setDynamic(HopsPluginUtils.isSparkDynamic(proj));
+                    if (!HopsPluginUtils.isSparkDynamic(proj))
+                        args.setNumExecutors(Integer.parseInt(util.getNumberExecutor(proj)));
+                    else {
+                        args.setInitExecutors(Integer.parseInt(HopsPluginUtils.getInitExec(proj)));
+                        args.setMaxExecutors(Integer.parseInt(HopsPluginUtils.getMaxExec(proj)));
+                        args.setMinExecutors(Integer.parseInt(HopsPluginUtils.getMinExec(proj)));
+                    }
+                    if (util.isAdvanced(proj)) {
+                        args.setAdvanceConfig(true);
+                        args.setArchives(util.getAdvancedArchive(proj));
+                        args.setFiles(util.getAdvancedFiles(proj));
+                        args.setPythonDependency(util.getPythonDependency(proj));
+                        args.setJars(util.getAdvancedJars(proj));
+                        args.setProperties(util.getMoreProperties(proj));
+                    }
+                    break;
+                case HopsPluginUtils.PYTHON:
+                    args.setPythonMemory(Integer.parseInt(util.getPythonMemory(proj)));
+                    args.setCpusCores(Integer.parseInt(util.getPythonCpuCores(proj)));
+                    if (util.isAdvanced(proj)) {
+                        args.setAdvanceConfig(true);
+                        args.setFiles(util.getAdvancedFiles(proj));
+                    }
+                    break;
+                case HopsPluginUtils.FLINK:
+
+                    args.setJobManagerMemory(Integer.parseInt(util.getJobManagerMemory(proj)));
+                    args.setTaskManagerMemory(Integer.parseInt(util.getTaskManagerMemory(proj)));
+                    args.setNumTaskManager(Integer.parseInt(util.getNumTaskManager(proj)));
+                    args.setNumSlots(Integer.parseInt(util.getNumberSlots(proj)));
+                    if (util.isAdvanced(proj)) {
+                        args.setAdvanceConfig(true);
+                        args.setProperties(util.getMoreProperties(proj));
+                    }
+                    break;
             }
 
             // create job
-            io.hops.cli.action.JobCreateAction createJob = new io.hops.cli.action.JobCreateAction(hopsworksAPIConfig, jobName, args);
+            JobCreateAction createJob = new JobCreateAction(hopsworksAPIConfig, jobName, args);
             int status = createJob.execute();
 
-            if (status == 200 || status == 201) {
+            if (status == HttpStatus.SC_OK || status == HttpStatus.SC_CREATED) {
                 PluginNoticifaction.notify(e.getProject(), "Job Created: " + jobName);
             }else {
                 if(createJob.getJsonResult().containsKey("usrMsg"))
@@ -128,7 +136,7 @@ public class HopsCreateJob extends AnAction {
             Logger.getLogger(JobCreateAction.class.getName()).log(Level.SEVERE, ioException.getMessage(), ioException);
         } catch (NullPointerException nullPointerException) {
             if (hopsProject == null) {
-                PluginNoticifaction.notifyError( e.getProject(),util.INVALID_PROJECT);
+                PluginNoticifaction.notifyError( e.getProject(), HopsPluginUtils.INVALID_PROJECT);
                 Logger.getLogger(HopsCreateJob.class.getName()).log(Level.SEVERE, nullPointerException.toString(), nullPointerException);
             } else {
                 PluginNoticifaction.notifyError(e.getProject(),nullPointerException.toString());

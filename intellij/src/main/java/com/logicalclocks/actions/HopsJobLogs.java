@@ -22,6 +22,7 @@ import com.logicalclocks.HopsPluginUtils;
 import com.logicalclocks.PluginNoticifaction;
 import io.hops.cli.action.JobLogsAction;
 import io.hops.cli.config.HopsworksAPIConfig;
+import org.apache.http.HttpStatus;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -57,13 +58,13 @@ public class HopsJobLogs extends AnAction {
 
             HopsworksAPIConfig hopsworksAPIConfig = new HopsworksAPIConfig( hopsworksApiKey, hopsworksUrl, projectName);
             JobLogsAction logsJob;
-            if(userExecId!="" || userExecId!=null){
+            if(!userExecId.equals("")){
                 logsJob = new JobLogsAction(hopsworksAPIConfig, jobName, userExecId);
             }else logsJob  = new JobLogsAction(hopsworksAPIConfig, jobName);
 
 
             int status=logsJob.execute();
-            if (status == 200 || status == 201) {
+            if (status == HttpStatus.SC_OK || status == HttpStatus.SC_CREATED) {
                 StringBuilder sb=new StringBuilder(jobName).append("_id").append(logsJob.getExecutionId()).append("_stdOut.log");
                 StringBuilder sb2=new StringBuilder(jobName).append("_id").append(logsJob.getExecutionId()).append("_stdErr.log");
                 //write logs

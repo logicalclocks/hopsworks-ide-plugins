@@ -21,8 +21,8 @@ import com.logicalclocks.HopsPluginUtils;
 import com.logicalclocks.PluginNoticifaction;
 import io.hops.cli.action.JobStopAction;
 import io.hops.cli.config.HopsworksAPIConfig;
+import org.apache.http.HttpStatus;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,18 +49,17 @@ public class HopsStopJob extends AnAction {
             JobStopAction stopJob=new JobStopAction(hopsworksAPIConfig,jobName);
             int status=stopJob.execute();
 
-            if (status == 200 || status == 201 || status == 202) {
+            if (status == HttpStatus.SC_OK || status == HttpStatus.SC_CREATED || status == HttpStatus.SC_ACCEPTED) {
                 PluginNoticifaction.notify(e.getProject(),"Job: "+jobName +" | Stopped");
             }  else {
                 if (stopJob.getJsonResult().containsKey("usrMsg"))
-                    PluginNoticifaction.notify(e.getProject()," Job Stop Failed | "+stopJob.getJsonResult().getString("usrMsg"));
+                    PluginNoticifaction.notify(e.getProject()," Job Stop Failed | "
+                            +stopJob.getJsonResult().getString("usrMsg"));
 
-                PluginNoticifaction.notifyError(e.getProject(),"Job: "+jobName +" | Stop failed");
+                PluginNoticifaction.notifyError(e.getProject(),"Job: "
+                        +jobName+" | Stop failed");
             }
 
-        } catch (IOException ex) {
-            PluginNoticifaction.notifyError(e.getProject(),ex.getMessage());
-            Logger.getLogger(HopsStopJob.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         } catch (Exception ex) {
             PluginNoticifaction.notifyError(e.getProject(),ex.getMessage());
             Logger.getLogger(HopsStopJob.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);

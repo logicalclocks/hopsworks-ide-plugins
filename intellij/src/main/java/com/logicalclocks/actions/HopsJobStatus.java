@@ -22,7 +22,6 @@ import com.logicalclocks.PluginNoticifaction;
 import io.hops.cli.action.JobStatusAction;
 import io.hops.cli.config.HopsworksAPIConfig;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -50,23 +49,23 @@ public class HopsJobStatus extends AnAction {
 
         try {
             HopsworksAPIConfig hopsworksAPIConfig = new HopsworksAPIConfig( hopsworksApiKey, hopsworksUrl, projectName);
-            io.hops.cli.action.JobStatusAction jobStatus = new io.hops.cli.action.JobStatusAction(hopsworksAPIConfig, jobName,userExecId);
-            int run=jobStatus.execute();
-            if(run==0){
+            JobStatusAction jobStatus = new JobStatusAction(hopsworksAPIConfig, jobName,userExecId);
+            int status=jobStatus.execute();
+            if(status==0){
                 String[] arr=jobStatus.getJobStatusArr();
-                StringBuilder sb=new StringBuilder("Job: ").append(jobName).append(" | Execution Id: ").append(jobStatus.getExecutionId()).append(" | State: ").append(arr[0]).append( " | Final Status: ").append(arr[1]);
+                StringBuilder sb=new StringBuilder("Job: ").append(jobName).append(" | Execution Id: ")
+                        .append(jobStatus.getExecutionId()).append(" | State: ").append(arr[0])
+                        .append( " | Final Status: ").append(arr[1]);
                 PluginNoticifaction.notify(e.getProject(),sb.toString());
             }else {
                 if (jobStatus.getJsonResult().containsKey("usrMsg"))
-                    PluginNoticifaction.notify(e.getProject()," Job Run Failed | "+jobStatus.getJsonResult().getString("usrMsg"));
+                    PluginNoticifaction.notify(e.getProject()," Job Status Failed | "
+                            +jobStatus.getJsonResult().getString("usrMsg"));
 
                 else PluginNoticifaction.notifyError(e.getProject(),"Failed to get job status");
             }
 
-        } catch (IOException ex) {
-            Logger.getLogger(io.hops.cli.action.JobStatusAction.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            PluginNoticifaction.notifyError(e.getProject(),ex.getMessage());
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             Logger.getLogger(JobStatusAction.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             PluginNoticifaction.notifyError(e.getProject(),ex.getMessage());
         }

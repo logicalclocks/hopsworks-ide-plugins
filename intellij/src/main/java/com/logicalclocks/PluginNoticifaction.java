@@ -27,13 +27,13 @@ public class PluginNoticifaction {
 public static void notifyError(@Nullable Project project, String content) {
 
     NotificationGroupManager.getInstance().getNotificationGroup("Hopsworks Notification")
-            .createNotification(content, NotificationType.ERROR)
+            .createNotification("Hopsworks Plugin","",content, NotificationType.ERROR)
             .notify(project);
 }
 
 public static void notify(@Nullable Project project, String content) {
     NotificationGroupManager.getInstance().getNotificationGroup("Hopsworks Notification")
-            .createNotification(content, NotificationType.INFORMATION)
+            .createNotification("Hopsworks Plugin","",content, NotificationType.INFORMATION)
             .notify(project);
 }
 

@@ -21,6 +21,7 @@ import com.logicalclocks.HopsPluginUtils;
 import com.logicalclocks.PluginNoticifaction;
 import io.hops.cli.action.JobRemoveAction;
 import io.hops.cli.config.HopsworksAPIConfig;
+import org.apache.http.HttpStatus;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -51,11 +52,12 @@ public class HopsRemoveJob extends AnAction {
                 JobRemoveAction rmJob = new JobRemoveAction(hopsworksAPIConfig, jobName);
                 int status=rmJob.execute();
 
-                if (status == 200 || status == 204 || status == 202) {
+                if (status == HttpStatus.SC_OK || status == HttpStatus.SC_NO_CONTENT || status == HttpStatus.SC_ACCEPTED) {
                     PluginNoticifaction.notify(e.getProject(),"Job: "+jobName+" | Deleted");
                 } else {
                     if (rmJob.getJsonResult().containsKey("usrMsg"))
-                        PluginNoticifaction.notify(e.getProject()," Job Remove Failed | "+rmJob.getJsonResult().getString("usrMsg"));
+                        PluginNoticifaction.notify(e.getProject()," Job Remove Failed | "
+                                +rmJob.getJsonResult().getString("usrMsg"));
 
                     else PluginNoticifaction.notifyError(e.getProject(),"Job: "+jobName+" | Remove failed");
                 }
