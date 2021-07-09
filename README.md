@@ -21,3 +21,10 @@ Work locally on your IntelliJ or PyCharm IDE and execute job actions directly on
 * **Stop:** Stops a job
 * **Delete:** Deletes a job
 * **Job Execution Status / Job Execution Logs:** Get the job status or logs respectively. You have the option of retrieving a particular job execution by specifying the execution id in the 'Hopsworks Job Preferences' UI, otherwise default is the last execution for the job name specified. 
+
+##### Support for running Flink jobs
+
+* You can also submit your local program as a flink job using the plugin. Follow the steps to `Create Job` to first create a flink job in Hopsworks.
+* Then click on `Run Job`. This will first start a flink cluster if there is no active running flink job with same job name. Otherwise it will use an active running flink cluster with same job name.
+Next it will upload and submit your program to a running flink cluster.
+* Set your program main class using the `Main Class` field in preferences. To pass arguments, simply fill it in the `User Arguments`, multiple arguments separated by space. e.g. --arg1 a1 --arg2 a2
