@@ -24,19 +24,20 @@ import com.sun.istack.Nullable;
 
 public class PluginNoticifaction {
 
-public static void notifyError(@Nullable Project project, String content) {
+    private static final String TITLE = "Hopsworks plugin";
+    private static final String GROUP_ID = "Hopsworks Notification";
 
-    NotificationGroupManager.getInstance().getNotificationGroup("Hopsworks Notification")
-            .createNotification("Hopsworks Plugin","",content, NotificationType.ERROR)
-            .notify(project);
-}
+    public static void notifyError(@Nullable Project project, String content) {
+        NotificationGroupManager.getInstance().getNotificationGroup(GROUP_ID)
+                .createNotification(TITLE, content, NotificationType.ERROR)
+                .notify(project);
+    }
 
-public static void notify(@Nullable Project project, String content) {
-    NotificationGroupManager.getInstance().getNotificationGroup("Hopsworks Notification")
-            .createNotification("Hopsworks Plugin","",content, NotificationType.INFORMATION)
-            .notify(project);
-}
-
+    public static void notify(@Nullable Project project, String content) {
+        NotificationGroupManager.getInstance().getNotificationGroup(GROUP_ID)
+                .createNotification(TITLE, content, NotificationType.INFORMATION)
+                .notify(project);
+    }
 
 
 }
