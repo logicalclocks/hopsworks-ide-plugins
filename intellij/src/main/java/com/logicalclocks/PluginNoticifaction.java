@@ -18,6 +18,9 @@ import com.intellij.notification.*;
 import com.intellij.openapi.project.Project;
 import com.sun.istack.Nullable;
 
+import static com.intellij.notification.NotificationType.*;
+
+
 /**
  * Creates notification in IDE
  */
@@ -29,13 +32,13 @@ public class PluginNoticifaction {
 
     public static void notifyError(@Nullable Project project, String content) {
         NotificationGroupManager.getInstance().getNotificationGroup(GROUP_ID)
-                .createNotification(TITLE, content, NotificationType.ERROR)
+                .createNotification(TITLE, content, ERROR)
                 .notify(project);
     }
 
     public static void notify(@Nullable Project project, String content) {
         NotificationGroupManager.getInstance().getNotificationGroup(GROUP_ID)
-                .createNotification(TITLE, content, NotificationType.INFORMATION)
+                .createNotification(TITLE, content, INFORMATION)
                 .notify(project);
     }
 
