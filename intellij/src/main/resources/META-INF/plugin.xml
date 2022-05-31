@@ -1,20 +1,17 @@
 <idea-plugin>
     <id>com.logicalclocks.hops-intellij</id>
     <name>Hopsworks</name>
-    <vendor email="info@logicalclocks.com" url="http://www.logicalclocks.com">Logical Clocks AB</vendor>
-
-
+    <vendor email="info@logicalclocks.com" url="https://www.hopsworks.ai/">Hopsworks AB</vendor>
 
     <description>
         <![CDATA[
-        <p>Plugin to interact with your Hopsworks cluster. Develop locally in your favourite IDE and execute job actions directly on your Hopsworks cluster.
+        <p>Plugin to interact with your Hopsworks cluster. Develop locally in your Intellij IDE and execute job actions directly on your Hopsworks cluster.
         Read more about Jobs on <a href="https://hopsworks.readthedocs.io/en/stable/user_guide/hopsworks/jobs.html#hopsworks-ide-plugin">Hopsworks Docs</a>
         </p>
         <h4 id="usage">Usage</h4>
         <ul>
-
         <li>Open the <b>Hopsworks Job Preferences</b> UI for specifying user preferences under <b>Settings -&gt; Tools -&gt; Hopsworks Job Preferences</b>. </li>
-        <li>Input the Hopworks project preferences and job details you wish to work on. </li>
+        <li>Input the Hopsworks project preferences and job details you wish to work on. </li>
         <li>Open a Project and within the Project Explorer right click on the program ( .jar, .py, .ipynb) you wish to execute as a job on Hopsworks. Different job actions possible are available in the context menu  ( Create, Run, Stop, etc.) </li>
         <ul>
         <li><strong>Note:</strong> The Job Type <code>Python</code> only supports Hopsworks-EE </li>
@@ -22,9 +19,8 @@
         <h5 id="actions">Actions</h5>
         <ul>
         <li><strong>Create:</strong> Create or update job as specified in Hopsworks Job Preferences</li>
-        <li><strong>Run:</strong> Uploads the program first to the HDFS path as specficied and runs job </li>
+        <li><strong>Run:</strong> Uploads the program first to the HDFS path as specified and runs job </li>
         <li><strong>Stop:</strong> Stops a job</li>
-        <li><strong>Delete:</strong> Deletes a job</li>
         <li><strong>Job Execution Status / Job Execution Logs:</strong> Get the job status or logs respectively. You have the option of retrieving a particular job execution by specifying the execution id in the &#39;Hopsworks Job Preferences&#39; UI, otherwise default is the last execution for the job name specified. </li>
         </ul>
         <h5 id="support-for-running-flink-jobs">Support for running Flink jobs</h5>
@@ -34,7 +30,6 @@
         Next it will upload and submit your program to a running flink cluster.</li>
         <li>Set your program main class using the <code>Main Class</code> field in preferences. To pass arguments, simply fill it in the <code>User Arguments</code>, multiple arguments separated by space. e.g. --arg1 a1 --arg2 a2</li>
         </ul>
-
         </ul>
         ]]>
     </description>
@@ -47,13 +42,8 @@
         <projectConfigurable groupId="tools"
                              displayName="Hopsworks Job Preferences"
                              instance="com.logicalclocks.HopsSettingsConfigurable" />
-
         <notificationGroup id="Hopsworks Notification" displayType="BALLOON" />
-
     </extensions>
-
-
-
 
     <actions>
         <action id="createJob" class="com.logicalclocks.actions.HopsCreateJob" text="Create Hopsworks Job">
@@ -65,17 +55,12 @@
         <action id="jobStop" class="com.logicalclocks.actions.HopsStopJob" text="Stop Hopsworks Job">
             <add-to-group group-id="ProjectViewPopupMenuRunGroup" anchor="after" relative-to-action="jobRun"/>
         </action>
-        <action id="jobRemove" class="com.logicalclocks.actions.HopsRemoveJob" text="Delete Hopsworks Job"
-                description="Deletes job from Hopsworks ">
-            <add-to-group group-id="ProjectViewPopupMenuRunGroup" anchor="after" relative-to-action="jobStop"/>
-        </action>
         <action id="jobStatus" class="com.logicalclocks.actions.HopsJobStatus" text="Job Execution Status">
-            <add-to-group group-id="ProjectViewPopupMenuRunGroup" anchor="after" relative-to-action="jobRemove"/>
+            <add-to-group group-id="ProjectViewPopupMenuRunGroup" anchor="after" relative-to-action="jobRun"/>
         </action>
         <action id="jobLogs" class="com.logicalclocks.actions.HopsJobLogs" text="Job Execution Logs">
             <add-to-group group-id="ProjectViewPopupMenuRunGroup" anchor="after" relative-to-action="jobStatus"/>
         </action>
-
     </actions>
 
 </idea-plugin>
