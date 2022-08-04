@@ -1,5 +1,3 @@
-import java.text.SimpleDateFormat
-
 /*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +18,7 @@ plugins {
 }
 
 group 'com.logicalclocks'
-version '2.1.0.7'
+version '2.1.0.8'
 
 
 repositories {
@@ -53,7 +51,7 @@ apply plugin: 'org.jetbrains.changelog'
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     pluginName = 'hops-intellij-plugin'
-    version = '2022.1'
+    version = '2022.2'
 
     patchPluginXml {
         changeNotes = changelog.getUnreleased().toHTML()
